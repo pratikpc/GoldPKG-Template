@@ -1,0 +1,38 @@
+name: Test on 3 OSes
+
+on: [push]
+
+env:
+  CTEST_OUTPUT_ON_FAILURE: 1
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      - name: Install GoldPKG
+        run: npm install -g goldpkg
+
+      - name: Install and Update Dependencies
+        run: npx goldpkg install
+
+      - name: Configure
+        run: cmake -S . -B build
+
+      - name: Build
+        run: cmake --build build --config Debug
+
+      - name: Run tests
+        run: |
+          cd build
+          ctest --build-config Debug
