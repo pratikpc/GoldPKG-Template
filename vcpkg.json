@@ -1,0 +1,10 @@
+{
+	"name": "goldpkg-template",
+	"version-string": "1.0.0",
+	"dependencies": [
+		"boost-array",
+		"catch2"
+	],
+	"license": "ISC",
+	"description": ""
+}
